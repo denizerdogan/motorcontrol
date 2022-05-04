@@ -1,0 +1,3 @@
+SLEEPTIME = 0.05
+CW = 1
+CCW = 0
