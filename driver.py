@@ -4,9 +4,16 @@ from CONSTANTS import *
 import RPi.GPIO as GPIO
 
 def run_sequence(chair: Motor, assembly: Motor):
-    chair.turn(180,CW)
+    # Turn chair 45 cw
+    t1 = threading.Thread(target=chair.turn, args=(180, CW))
+    t1.start()
 
-    print("Thread finished")
+    t2 = threading.Thread(target=chair.turn, args=(180, CW))
+    t2.start()
+
+    t1.join()
+    t2.join()
+    print("Threads finished")
 
 
 def main():
@@ -14,11 +21,12 @@ def main():
     
     print("Import successful.")
     
-    m = Motor(10, 8, 800)
+    m1 = Motor(10, 8, 800)
+    m2 = Motor(18, 16, 800)
+
+    run_sequence(m1, m2)
     
-    t = threading.Thread(target=run_sequence, args=(m,m))
-    t.start()
-    t.join()
+
 
 
 

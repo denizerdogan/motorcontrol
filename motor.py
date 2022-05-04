@@ -22,6 +22,10 @@ class Motor:
 		# calculate necessary values
 		self.calculate_params()
 
+	def dummy_wait(self, angle, direction):
+		sleep(5)
+		return
+
 	
 	def turn(self, angle, direction):
 		step_count = floor(angle / self.get_step_angle())
@@ -48,6 +52,8 @@ class Motor:
 				self.current_angle -= self.get_step_angle()
 
 			print("Motor current angle is:", self.current_angle)
+
+			return
 
 	def calculate_params(self):
 		self.step_angle = 360 / self.get_spr()
