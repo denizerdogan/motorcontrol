@@ -1,21 +1,24 @@
 from motor import Motor
 import threading
 from CONSTANTS import *
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 def run_sequence(chair: Motor, assembly: Motor):
-    chair.turn(45,CW)
-    t = threading.Thread(target=run_sequence, args=(chair,assembly))
-    t.start()
-    t.join()
+    chair.turn(180,CW)
+
     print("Thread finished")
 
 
 def main():
+    GPIO.setmode(GPIO.BOARD)
     
     print("Import successful.")
     
-    m = Motor(8, 10, 800)
+    m = Motor(10, 8, 800)
+    
+    t = threading.Thread(target=run_sequence, args=(m,m))
+    t.start()
+    t.join()
 
 
 

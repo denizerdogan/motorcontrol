@@ -1,8 +1,9 @@
 # import RPi.GPIO as GPIO
 from time import sleep
-
-from matplotlib.pyplot import get
+from math import floor
 from CONSTANTS import *
+from time import sleep
+import RPi.GPIO as GPIO
 
 class Motor:
 	
@@ -12,18 +13,34 @@ class Motor:
 		self.steppin = steppin
 		self.spr = steps_per_revolution
 		self.current_angle = 0
+		
+		# initialize pins
+		GPIO.setup(dirpin, GPIO.OUT)
+		GPIO.setup(steppin, GPIO.OUT)
+		
 
 		# calculate necessary values
 		self.calculate_params()
 
 	
 	def turn(self, angle, direction):
-		step_count = angle / self.get_step_angle()
+		step_count = floor(angle / self.get_step_angle())
 
 		# set direction here
+		GPIO.output(self.dirpin,CW)
+		print(step_count)
+		sleep(3)
 
 		for _ in range(step_count):
-			# pulse
+			# Set one coil winding to high
+			GPIO.output(self.steppin,GPIO.HIGH)
+			# Allow it to get there.
+			sleep(SLEEPTIME) # Dictates how fast stepper motor will run1
+			# Set coil winding to low
+			GPIO.output(self.steppin,GPIO.LOW)
+			sleep(SLEEPTIME) # Dictates how fast stepper motor will run
+			
+			#sleep(0.1)
 
 			if direction is CW:
 				self.current_angle += self.get_step_angle()

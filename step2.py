@@ -9,7 +9,7 @@ STEP = 8
 CW = 1
 CCW = 0
 
-sleeptime = .05
+sleeptime = .004
 
 STEP2 = 16
 DIR2 = 18
