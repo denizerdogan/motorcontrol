@@ -8,7 +8,7 @@ def run_sequence(chair: Motor, assembly: Motor):
     t1 = threading.Thread(target=chair.turn, args=(180, CW))
     t1.start()
 
-    t2 = threading.Thread(target=chair.turn, args=(180, CW))
+    t2 = threading.Thread(target=assembly.turn, args=(360, CCW))
     t2.start()
 
     t1.join()
@@ -30,7 +30,7 @@ def main():
 
 
 
-    print(m.introduce_yourself())
+    print(m1.introduce_yourself())
     return 0
 
 if __name__ == '__main__':

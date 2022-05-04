@@ -31,7 +31,7 @@ class Motor:
 		step_count = floor(angle / self.get_step_angle())
 
 		# set direction here
-		GPIO.output(self.dirpin,CW)
+		GPIO.output(self.dirpin,direction)
 		print(step_count)
 		sleep(3)
 
@@ -53,7 +53,7 @@ class Motor:
 
 			print("Motor current angle is:", self.current_angle)
 
-			return
+		return
 
 	def calculate_params(self):
 		self.step_angle = 360 / self.get_spr()
