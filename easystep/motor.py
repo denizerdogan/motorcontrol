@@ -77,10 +77,10 @@ class Motor:
 
 	# Turn the motor to the given angle.
 	# This is the absolute angle, not the relative.
-	def turn_to(self, angle):
+	def turn_to(self, angle, time=None):
 		angle_to_turn = angle - self.current_angle
 		direction =  CW if angle_to_turn > 0 else CCW
-		self.turn(abs(angle_to_turn), direction)
+		self.turn(abs(angle_to_turn), direction, time)
 
 
 	# Calculate step angle fior given microstep condition
