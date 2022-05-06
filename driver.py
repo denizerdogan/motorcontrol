@@ -1,4 +1,4 @@
-from motor import Motor
+from easystep.motor import Motor
 import threading
 from CONSTANTS import *
 import RPi.GPIO as GPIO
@@ -8,12 +8,16 @@ def run_sequence(chair: Motor, assembly: Motor):
     t1 = threading.Thread(target=chair.turn, args=(180, CW))
     t1.start()
 
-    t2 = threading.Thread(target=assembly.turn, args=(360, CCW))
+    t2 = threading.Thread(target=assembly.turn, args=(540, CCW, 15))
     t2.start()
 
     t1.join()
     t2.join()
     print("Threads finished")
+
+def seq2test(chair: Motor):
+    t1 = threading.Thread(target=chair.turn_to, args=(0,))
+    t1.start()
 
 
 def main():
@@ -25,12 +29,17 @@ def main():
     m2 = Motor(18, 16, 800)
 
     run_sequence(m1, m2)
+
+    seq2test(m2)
     
 
 
 
 
     print(m1.introduce_yourself())
+
+    m1.cleanup()
+    m2.cleanup()
     return 0
 
 if __name__ == '__main__':

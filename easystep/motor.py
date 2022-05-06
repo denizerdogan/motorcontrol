@@ -1,8 +1,9 @@
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from time import sleep
 from math import floor
 from CONSTANTS import *
 from time import sleep
+
 
 class Motor:
 	
@@ -25,6 +26,9 @@ class Motor:
 		sleep(5)
 		return
 
+	def cleanup(self):
+		GPIO.output(self.steppin,GPIO.LOW)
+
 
 
 	
@@ -32,8 +36,19 @@ class Motor:
 	# relative to the current state.
 	# Direction given: CW or CCW
 	# Angle : in degrees
-	def turn(self, angle, direction):
+	# time : in seconds
+	# if no time is given, SLEEPTIME from CONSTANTS.py is used
+	def turn(self, angle, direction, time=None):
 		step_count = floor(angle / self.get_step_angle())
+
+		
+
+		if time:
+			print("TIME!!!")
+			sleep_dur = time / step_count
+		else:
+			print("NO TIME!!!")
+			sleep_dur = SLEEPTIME
 
 		# set direction here
 		GPIO.output(self.dirpin,direction)
@@ -42,10 +57,10 @@ class Motor:
 			# Set one coil winding to high
 			GPIO.output(self.steppin,GPIO.HIGH)
 			# Allow it to get there.
-			sleep(SLEEPTIME) # Dictates how fast stepper motor will run1
+			sleep(sleep_dur) # Dictates how fast stepper motor will run1
 			# Set coil winding to low
 			GPIO.output(self.steppin,GPIO.LOW)
-			sleep(SLEEPTIME) # Dictates how fast stepper motor will run
+			# sleep(SLEEPTIME) # Dictates how fast stepper motor will run
 			
 			#sleep(0.1)
 
@@ -53,6 +68,7 @@ class Motor:
 				self.current_angle += self.get_step_angle()
 			else:
 				self.current_angle -= self.get_step_angle()
+			
 
 			print("Motor current angle is:", self.current_angle)
 
